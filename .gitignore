@@ -4,6 +4,9 @@ node_modules
 # yarn error logs
 yarn-error.log
 
+# IDE
+.idea
+
 # Environment varibales
 .env*
 !.env*.example
@@ -11,6 +14,11 @@ yarn-error.log
 # Code coverage
 coverage
 
+# Cache
 .eslintcache
 
+# IDE
 .idea
+
+# File upload
+uploads/

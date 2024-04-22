@@ -37,6 +37,7 @@ const toJSON = (schema) => {
         return transform(doc, ret, options);
       }
     },
+    virtuals: true,
   });
 };
 
