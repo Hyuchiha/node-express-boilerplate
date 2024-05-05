@@ -8,8 +8,8 @@ const mediaValidation = require('../../validations/media.validation');
 const router = express.Router();
 
 router.post('/upload-file', auth(), handleFileUpload('file'), mediaController.uploadFile);
-router.get('/image/:id', validate(mediaValidation.getMediaFile), mediaController.getMediaFile);
-router.get('/video/:id', validate(mediaValidation.getMediaFile), mediaController.getVideoFile);
+router.get('/image/:filename', validate(mediaValidation.getMediaFile), mediaController.getMediaFile);
+router.get('/video/:filename', validate(mediaValidation.getMediaFile), mediaController.getVideoFile);
 
 module.exports = router;
 

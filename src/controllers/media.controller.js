@@ -22,7 +22,7 @@ const getMediaFile = catchAsync(async (req, res) => {
     throw new ApiError(httpStatus.NOT_FOUND, 'File not found');
   }
 
-  const isImage = file?.ffileType?.match(/image/i);
+  const isImage = file?.fileType?.match(/image/i);
 
   if (!isImage) {
     throw new ApiError(httpStatus.NOT_FOUND, 'File not found');
