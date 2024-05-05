@@ -8,7 +8,8 @@ const mediaValidation = require('../../validations/media.validation');
 const router = express.Router();
 
 router.post('/upload-file', auth(), handleFileUpload('file'), mediaController.uploadFile);
-router.get('/file/:filename', validate(mediaValidation.getMediaFile), mediaController.getMediaFile);
+router.get('/image/:id', validate(mediaValidation.getMediaFile), mediaController.getMediaFile);
+router.get('/video/:id', validate(mediaValidation.getMediaFile), mediaController.getVideoFile);
 
 module.exports = router;
 
@@ -63,7 +64,7 @@ module.exports = router;
 
 /**
  * @swagger
- * /media/file/{filename}:
+ * /media/image/{filename}:
  *   get:
  *     summary: Obtain a file by its name
  *     tags: [Media]
@@ -77,6 +78,43 @@ module.exports = router;
  *     responses:
  *       "200":
  *         description: OK
+ *         content:
+ *           application/octet-stream:
+ *             schema:
+ *               type: string
+ *               format: binary
+ *       "404":
+ *         $ref: '#/components/responses/NotFound'
+ */
+
+/**
+ * @swagger
+ * /media/video/{filename}:
+ *   get:
+ *     summary: Obtain a file by its name
+ *     tags: [Media]
+ *     parameters:
+ *       - in: path
+ *         name: filename
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: File name
+ *       - in: header
+ *         name: range
+ *         schema:
+ *           type: string
+ *         description: Range of bytes to fetch (e.g., "bytes=0-100"). Used for video chunking.
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/octet-stream:
+ *             schema:
+ *               type: string
+ *               format: binary
+ *       "206":
+ *         description: Partial Content
  *         content:
  *           application/octet-stream:
  *             schema:
