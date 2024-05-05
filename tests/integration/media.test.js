@@ -84,10 +84,10 @@ describe('Media routes', () => {
     });
   });
 
-  describe.skip('GET /v1/media/video/:filename', () => {
+  describe('GET /v1/media/video/:filename', () => {
     let uploadedVideo;
     beforeEach(async () => {
-      const file = await readTestFile();
+      const file = await readTestFile(true);
       await insertUsers([userOne]);
 
       const uploadRes = await request(app)
@@ -104,6 +104,8 @@ describe('Media routes', () => {
     });
 
     test('should return 200 and video content if video file exists', async () => {
+      console.log("Uploaded file", uploadedVideo)
+
       await request(app).get(`/v1/media/video/${uploadedVideo.fileName}`).expect(httpStatus.OK);
     });
 
