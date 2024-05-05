@@ -38,7 +38,7 @@ const getMediaFile = catchAsync(async (req, res) => {
 const getVideoFile = catchAsync(async (req, res) => {
   const { range } = req.headers;
 
-  const file = await mediaService.getFileByName(req.params.id);
+  const file = await mediaService.getFileByName(req.params.filename);
   if (!file) {
     throw new ApiError(httpStatus.NOT_FOUND, 'File not found');
   }

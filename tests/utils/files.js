@@ -4,10 +4,16 @@ const { promisify } = require('util');
 
 const unlink = promisify(fs.unlink);
 
-const readTestFile = async () => {
-  const imagePath = path.join(__dirname, '..', 'fixtures', 'testImage.jpg');
+const readTestFile = async (isVideo = false) => {
+  let filePath = null;
+
+  if (isVideo) {
+    filePath = path.join(__dirname, '..', 'fixtures', 'testVideo.mp4');
+  } else {
+    filePath = path.join(__dirname, '..', 'fixtures', 'testImage.jpg');
+  }
   // Use any image file you have for testing
-  return fs.createReadStream(imagePath);
+  return fs.createReadStream(filePath);
 };
 
 const generateTestFile = async () => {
