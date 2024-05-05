@@ -32,7 +32,10 @@ const mediaFileSchema = mongoose.Schema(
 mediaFileSchema.plugin(toJSON);
 
 mediaFileSchema.virtual('url').get(function () {
-  return `${config.backendUrl}v1/media/file/${this.fileName}`;
+  const isVideo = this.fileType?.match(/video/i);
+  return isVideo
+    ? `${config.backendUrl}v1/media/video/${this.fileName}`
+    : `${config.backendUrl}v1/media/image/${this.fileName}`;
 });
 
 /**
