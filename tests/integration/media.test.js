@@ -104,8 +104,6 @@ describe('Media routes', () => {
     });
 
     test('should return 200 and video content if video file exists', async () => {
-      console.log("Uploaded file", uploadedVideo)
-
       await request(app).get(`/v1/media/video/${uploadedVideo.fileName}`).expect(httpStatus.OK);
     });
 
