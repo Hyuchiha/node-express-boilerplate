@@ -84,7 +84,7 @@ describe('Media routes', () => {
     });
   });
 
-  describe('GET /v1/media/video/:filename', () => {
+  describe('GET /v1/media/resource/:filename', () => {
     let uploadedVideo;
     beforeEach(async () => {
       const file = await readTestFile(true);
@@ -104,11 +104,11 @@ describe('Media routes', () => {
     });
 
     test('should return 200 and video content if video file exists', async () => {
-      await request(app).get(`/v1/media/video/${uploadedVideo.fileName}`).expect(httpStatus.OK);
+      await request(app).get(`/v1/media/resource/${uploadedVideo.fileName}`).expect(httpStatus.OK);
     });
 
     test('should return 404 if video file does not exist', async () => {
-      await request(app).get('/v1/media/video/nonexistentVideo.mp4').expect(httpStatus.NOT_FOUND);
+      await request(app).get('/v1/media/resource/nonexistentVideo.mp4').expect(httpStatus.NOT_FOUND);
     });
   });
 });

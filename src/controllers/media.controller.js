@@ -9,7 +9,7 @@ const uploadFile = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(mediaFile);
 });
 
-const getMediaFile = catchAsync(async (req, res) => {
+const getImageFile = catchAsync(async (req, res) => {
   const file = await mediaService.getFileByName(req.params.filename);
   if (!file) {
     throw new ApiError(httpStatus.NOT_FOUND, 'File not found');
@@ -35,7 +35,7 @@ const getMediaFile = catchAsync(async (req, res) => {
   stream.pipe(res);
 });
 
-const getVideoFile = catchAsync(async (req, res) => {
+const getMediaFile = catchAsync(async (req, res) => {
   const { range } = req.headers;
 
   const file = await mediaService.getFileByName(req.params.filename);
@@ -51,7 +51,8 @@ const getVideoFile = catchAsync(async (req, res) => {
   }
 
   const isVideo = file?.fileType?.match(/video/i);
-  if (!isVideo) {
+  const isAudio = file?.fileType?.match(/audio/i);
+  if (!(isVideo || isAudio)) {
     throw new ApiError(httpStatus.NOT_FOUND, 'File not found');
   }
 
@@ -81,8 +82,32 @@ const getVideoFile = catchAsync(async (req, res) => {
   }
 });
 
+const getFile = catchAsync(async (req, res) => {
+  const file = await mediaService.getFileByName(req.params.filename);
+  if (!file) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'File not found');
+  }
+  const uploadDirectory = mediaService.getUploadsDirectory();
+  const filePath = `${uploadDirectory}/${file.fileName}`;
+
+  // Check if file exists
+  if (!fs.existsSync(filePath)) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'File not found');
+  }
+
+  const headers = {
+    'Content-Type': file?.fileType,
+    'Content-Length': file.fileSize,
+    'Accept-Ranges': 'bytes',
+  };
+  res.status(httpStatus.OK).set(headers);
+  const stream = fs.createReadStream(filePath);
+  stream.pipe(res);
+});
+
 module.exports = {
   uploadFile,
+  getImageFile,
   getMediaFile,
-  getVideoFile,
+  getFile,
 };

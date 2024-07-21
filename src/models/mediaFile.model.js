@@ -33,9 +33,18 @@ mediaFileSchema.plugin(toJSON);
 
 mediaFileSchema.virtual('url').get(function () {
   const isVideo = this.fileType?.match(/video/i);
-  return isVideo
-    ? `${config.backendUrl}v1/media/video/${this.fileName}`
-    : `${config.backendUrl}v1/media/image/${this.fileName}`;
+  const isAudio = this.fileType?.match(/audio/i);
+  const isImage = this.fileType?.match(/image/i);
+
+  if (isImage) {
+    return `${config.backendUrl}v1/media/image/${this.fileName}`;
+  }
+
+  if (isVideo || isAudio) {
+    return `${config.backendUrl}v1/media/resource/${this.fileName}`;
+  }
+
+  return `${config.backendUrl}v1/media/file/${this.fileName}`;
 });
 
 /**
