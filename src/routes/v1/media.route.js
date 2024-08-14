@@ -8,8 +8,9 @@ const mediaValidation = require('../../validations/media.validation');
 const router = express.Router();
 
 router.post('/upload-file', auth(), handleFileUpload('file'), mediaController.uploadFile);
-router.get('/image/:filename', validate(mediaValidation.getMediaFile), mediaController.getMediaFile);
-router.get('/video/:filename', validate(mediaValidation.getMediaFile), mediaController.getVideoFile);
+router.get('/image/:filename', validate(mediaValidation.getMediaFile), mediaController.getImageFile);
+router.get('/resource/:filename', validate(mediaValidation.getMediaFile), mediaController.getMediaFile);
+router.get('/file/:filename', validate(mediaValidation.getMediaFile), mediaController.getFile);
 
 module.exports = router;
 
@@ -89,7 +90,7 @@ module.exports = router;
 
 /**
  * @swagger
- * /media/video/{filename}:
+ * /media/resource/{filename}:
  *   get:
  *     summary: Obtain a file by its name
  *     tags: [Media]
@@ -115,6 +116,31 @@ module.exports = router;
  *               format: binary
  *       "206":
  *         description: Partial Content
+ *         content:
+ *           application/octet-stream:
+ *             schema:
+ *               type: string
+ *               format: binary
+ *       "404":
+ *         $ref: '#/components/responses/NotFound'
+ */
+
+/**
+ * @swagger
+ * /media/file/{filename}:
+ *   get:
+ *     summary: Obtain a file by its name
+ *     tags: [Media]
+ *     parameters:
+ *       - in: path
+ *         name: filename
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: File name
+ *     responses:
+ *       "200":
+ *         description: OK
  *         content:
  *           application/octet-stream:
  *             schema:

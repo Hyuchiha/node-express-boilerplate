@@ -14,5 +14,11 @@ yarn-error.log
 # Code coverage
 coverage
 
+# Cache
+.eslintcache
+
+# IDE
+.idea
+
 # File upload
 uploads/
