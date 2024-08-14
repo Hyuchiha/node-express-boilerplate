@@ -37,14 +37,14 @@ mediaFileSchema.virtual('url').get(function () {
   const isImage = this.fileType?.match(/image/i);
 
   if (isImage) {
-    return `${config.backendUrl}v1/media/image/${this.fileName}`;
+    return `${config.backendUrl}/v1/media/image/${this.fileName}`;
   }
 
   if (isVideo || isAudio) {
-    return `${config.backendUrl}v1/media/resource/${this.fileName}`;
+    return `${config.backendUrl}/v1/media/resource/${this.fileName}`;
   }
 
-  return `${config.backendUrl}v1/media/file/${this.fileName}`;
+  return `${config.backendUrl}/v1/media/file/${this.fileName}`;
 });
 
 /**
