@@ -56,8 +56,8 @@ describe('Media routes', () => {
     });
   });
 
-  describe('GET /v1/media/file/:filename', () => {
-    let uploadedFile;
+  describe('GET /v1/media/image/:filename', () => {
+    let uploadedImage;
     beforeEach(async () => {
       const file = await readTestFile();
       await insertUsers([userOne]);
@@ -68,19 +68,47 @@ describe('Media routes', () => {
         .attach('file', file)
         .expect(httpStatus.CREATED);
 
-      uploadedFile = uploadRes.body;
+      uploadedImage = uploadRes.body;
     });
 
     afterEach(async () => {
-      await deleteTestFile(path.join(__dirname, '../..', config.files.uploadDestination, uploadedFile.fileName));
+      await deleteTestFile(path.join(__dirname, '../..', config.files.uploadDestination, uploadedImage.fileName));
     });
 
-    test('should return 200 and file content if file exists', async () => {
-      await request(app).get(`/v1/media/file/${uploadedFile.fileName}`).expect(httpStatus.OK);
+    test('should return 200 and image content if image file exists', async () => {
+      await request(app).get(`/v1/media/image/${uploadedImage.fileName}`).expect(httpStatus.OK);
     });
 
-    test('should return 404 if file does not exist', async () => {
-      await request(app).get('/v1/media/file/nonexistentFile.png').expect(httpStatus.NOT_FOUND);
+    test('should return 404 if image file does not exist', async () => {
+      await request(app).get('/v1/media/image/nonexistentImage.jpg').expect(httpStatus.NOT_FOUND);
+    });
+  });
+
+  describe('GET /v1/media/video/:filename', () => {
+    let uploadedVideo;
+    beforeEach(async () => {
+      const file = await readTestFile(true);
+      await insertUsers([userOne]);
+
+      const uploadRes = await request(app)
+        .post('/v1/media/upload-file')
+        .set('Authorization', `Bearer ${userOneAccessToken}`)
+        .attach('file', file)
+        .expect(httpStatus.CREATED);
+
+      uploadedVideo = uploadRes.body;
+    });
+
+    afterEach(async () => {
+      await deleteTestFile(path.join(__dirname, '../..', config.files.uploadDestination, uploadedVideo.fileName));
+    });
+
+    test('should return 200 and video content if video file exists', async () => {
+      await request(app).get(`/v1/media/video/${uploadedVideo.fileName}`).expect(httpStatus.OK);
+    });
+
+    test('should return 404 if video file does not exist', async () => {
+      await request(app).get('/v1/media/video/nonexistentVideo.mp4').expect(httpStatus.NOT_FOUND);
     });
   });
 });
