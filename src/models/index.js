@@ -1,3 +1,5 @@
-module.exports.MediaFile = require('./mediaFile.model');
-module.exports.Token = require('./token.model');
-module.exports.User = require('./user.model');
+import MediaFile from './mediaFile.model';
+import User from './user.model';
+import Token from './token.model';
+
+export { MediaFile, User, Token };

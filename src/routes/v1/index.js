@@ -1,9 +1,9 @@
-const express = require('express');
-const config = require('../../config/config');
-const docsRoute = require('./docs.route');
-const authRoute = require('./auth.route');
-const userRoute = require('./user.route');
-const mediaRoute = require('./media.route');
+import express from 'express';
+import config from '../../config/config';
+import docsRoute from './docs.route';
+import authRoute from './auth.route';
+import userRoute from './user.route';
+import mediaRoute from './media.route';
 
 const router = express.Router();
 
@@ -41,4 +41,4 @@ if (config.env === 'development') {
   });
 }
 
-module.exports = router;
+export default router;

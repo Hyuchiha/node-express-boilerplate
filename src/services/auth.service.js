@@ -1,9 +1,9 @@
-const httpStatus = require('http-status');
-const tokenService = require('./token.service');
-const userService = require('./user.service');
-const Token = require('../models/token.model');
-const ApiError = require('../utils/ApiError');
-const { tokenTypes } = require('../config/tokens');
+import httpStatus from 'http-status';
+import tokenService from './token.service';
+import userService from './user.service';
+import ApiError from '../utils/ApiError';
+import tokenTypes from '../config/tokens';
+import { Token } from '../models';
 
 /**
  * Login with username and password
@@ -90,7 +90,7 @@ const verifyEmail = async (verifyEmailToken) => {
   }
 };
 
-module.exports = {
+export default {
   loginUserWithEmailAndPassword,
   logout,
   refreshAuth,

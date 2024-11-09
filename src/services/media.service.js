@@ -1,7 +1,7 @@
-const path = require('path');
-const fs = require('fs');
-const config = require('../config/config');
-const { MediaFile } = require('../models');
+import path from 'node:path';
+import fs from 'node:fs';
+import config from '../config/config';
+import { MediaFile } from '../models';
 
 /**
  * Returns the path where the upload files are stored
@@ -39,7 +39,7 @@ const getFileByName = async (fileName) => {
   return MediaFile.findOne({ fileName });
 };
 
-module.exports = {
+export default {
   uploadFile,
   getFileByName,
   getUploadsDirectory,

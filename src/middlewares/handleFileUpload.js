@@ -1,10 +1,10 @@
-const multer = require('multer');
-const fs = require('fs');
-const path = require('path');
-const randomstring = require('randomstring');
-const httpStatus = require('http-status');
-const config = require('../config/config');
-const ApiError = require('../utils/ApiError');
+import multer from 'multer';
+import fs from 'node:fs';
+import path from 'node:path';
+import randomstring from 'randomstring';
+import httpStatus from 'http-status';
+import config from '../config/config';
+import ApiError from '../utils/ApiError';
 
 const getStorage = (fieldName, destination) => {
   const uploadDirectory = path.join(__dirname, '..', '..', destination);
@@ -52,4 +52,4 @@ const handleFileUpload = (fieldName, single = true, destination = config.files.u
   return upload.array(fieldName);
 };
 
-module.exports = handleFileUpload;
+export default handleFileUpload;

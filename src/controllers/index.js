@@ -1,3 +1,5 @@
-module.exports.authController = require('./auth.controller');
-module.exports.mediaController = require('./media.controller');
-module.exports.userController = require('./user.controller');
+import authController from './auth.controller';
+import mediaController from './media.controller';
+import userController from './user.controller';
+
+export { authController, mediaController, userController };

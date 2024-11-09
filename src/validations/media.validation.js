@@ -1,4 +1,4 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
 const getMediaFile = {
   params: Joi.object().keys({
@@ -6,6 +6,4 @@ const getMediaFile = {
   }),
 };
 
-module.exports = {
-  getMediaFile,
-};
+export default { getMediaFile };

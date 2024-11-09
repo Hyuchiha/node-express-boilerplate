@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-const { toJSON } = require('./plugins');
-const config = require('../config/config');
+import mongoose from 'mongoose';
+import { toJSON } from './plugins';
+import config from '../config/config';
 
 const mediaFileSchema = mongoose.Schema(
   {
@@ -52,4 +52,4 @@ mediaFileSchema.virtual('url').get(function () {
  */
 const MediaFile = mongoose.model('MediaFile', mediaFileSchema);
 
-module.exports = MediaFile;
+export default MediaFile;

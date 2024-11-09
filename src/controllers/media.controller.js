@@ -1,8 +1,8 @@
-const httpStatus = require('http-status');
-const fs = require('fs');
-const catchAsync = require('../utils/catchAsync');
-const mediaService = require('../services/media.service');
-const ApiError = require('../utils/ApiError');
+import httpStatus from 'http-status';
+import fs from 'node:fs';
+import catchAsync from '../utils/catchAsync';
+import { mediaService } from '../services';
+import ApiError from '../utils/ApiError';
 
 const uploadFile = catchAsync(async (req, res) => {
   const mediaFile = await mediaService.uploadFile(req.file, req.user);
@@ -105,7 +105,7 @@ const getFile = catchAsync(async (req, res) => {
   stream.pipe(res);
 });
 
-module.exports = {
+export default {
   uploadFile,
   getImageFile,
   getMediaFile,

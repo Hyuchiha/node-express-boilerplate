@@ -1,9 +1,9 @@
-const express = require('express');
-const handleFileUpload = require('../../middlewares/handleFileUpload');
-const validate = require('../../middlewares/validate');
-const auth = require('../../middlewares/auth');
-const mediaController = require('../../controllers/media.controller');
-const mediaValidation = require('../../validations/media.validation');
+import express from 'express';
+import handleFileUpload from '../../middlewares/handleFileUpload';
+import validate from '../../middlewares/validate';
+import auth from '../../middlewares/auth';
+import mediaController from '../../controllers/media.controller';
+import mediaValidation from '../../validations/media.validation';
 
 const router = express.Router();
 
@@ -12,7 +12,7 @@ router.get('/image/:filename', validate(mediaValidation.getMediaFile), mediaCont
 router.get('/resource/:filename', validate(mediaValidation.getMediaFile), mediaController.getMediaFile);
 router.get('/file/:filename', validate(mediaValidation.getMediaFile), mediaController.getFile);
 
-module.exports = router;
+export default router;
 
 /**
  * @swagger

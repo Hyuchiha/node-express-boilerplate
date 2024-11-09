@@ -22,3 +22,5 @@ coverage
 
 # File upload
 uploads/
+
+dist

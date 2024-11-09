@@ -1,6 +1,6 @@
-const dotenv = require('dotenv');
-const path = require('path');
-const Joi = require('joi');
+import dotenv from 'dotenv';
+import path from 'node:path';
+import Joi from 'joi';
 
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 
@@ -39,7 +39,7 @@ if (error) {
   throw new Error(`Config validation error: ${error.message}`);
 }
 
-module.exports = {
+const config = {
   env: envVars.NODE_ENV,
   port: envVars.PORT,
   backendUrl: envVars.BACKEND_URL,
@@ -70,3 +70,5 @@ module.exports = {
     from: envVars.EMAIL_FROM,
   },
 };
+
+export default config;
