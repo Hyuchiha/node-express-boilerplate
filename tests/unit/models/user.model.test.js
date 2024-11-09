@@ -1,5 +1,5 @@
-const { faker } = require('@faker-js/faker');
-const { User } = require('../../../src/models');
+import { faker } from '@faker-js/faker';
+import { User } from '../../../src/models';
 
 describe('User model', () => {
   describe('User validation', () => {

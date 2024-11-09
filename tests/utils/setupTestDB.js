@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const config = require('../../src/config/config');
+import mongoose from 'mongoose';
+import config from '../../src/config/config';
 
 // Mongoose Strict Query Deprecation Warning suppression
 mongoose.set('strictQuery', false);
@@ -18,4 +18,4 @@ const setupTestDB = () => {
   });
 };
 
-module.exports = setupTestDB;
+export default setupTestDB;

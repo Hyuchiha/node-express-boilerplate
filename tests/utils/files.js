@@ -1,6 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-const { promisify } = require('util');
+import fs from 'node:fs';
+import path from 'node:path';
+import { promisify } from 'util';
 
 const unlink = promisify(fs.unlink);
 
@@ -26,8 +26,4 @@ const deleteTestFile = async (filePath) => {
   await unlink(filePath);
 };
 
-module.exports = {
-  generateTestFile,
-  readTestFile,
-  deleteTestFile,
-};
+export { generateTestFile, readTestFile, deleteTestFile };

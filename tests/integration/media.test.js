@@ -1,12 +1,12 @@
-const request = require('supertest');
-const httpStatus = require('http-status');
-const path = require('path');
-const app = require('../../src/app');
-const setupTestDB = require('../utils/setupTestDB');
-const { generateTestFile, readTestFile, deleteTestFile } = require('../utils/files');
-const { insertUsers, userOne } = require('../fixtures/user.fixture');
-const { userOneAccessToken } = require('../fixtures/token.fixture');
-const config = require('../../src/config/config');
+import request from 'supertest';
+import httpStatus from 'http-status';
+import path from 'node:path';
+import app from '../../src/app';
+import setupTestDB from '../utils/setupTestDB';
+import { generateTestFile, readTestFile, deleteTestFile } from '../utils/files';
+import { insertUsers, userOne } from '../fixtures/user.fixture';
+import { userOneAccessToken } from '../fixtures/token.fixture';
+import config from '../../src/config/config';
 
 setupTestDB();
 
