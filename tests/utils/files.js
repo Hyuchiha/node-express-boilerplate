@@ -4,16 +4,24 @@ import { promisify } from 'util';
 
 const unlink = promisify(fs.unlink);
 
-const readTestFile = async (isVideo = false) => {
+const readTestFile = async (type = 1) => {
   let filePath = null;
 
-  if (isVideo) {
-    filePath = path.join(__dirname, '..', 'fixtures', 'testVideo.mp4');
-  } else {
-    filePath = path.join(__dirname, '..', 'fixtures', 'testImage.jpg');
+  switch (type) {
+    case 2:
+      filePath = path.join(__dirname, '..', 'fixtures', 'testVideo.mp4');
+      break;
+    case 3:
+      filePath = path.join(__dirname, '..', 'fixtures', 'testAudio.mp3');
+      break;
+    case 1:
+    default:
+      filePath = path.join(__dirname, '..', 'fixtures', 'testImage.jpg');
+      break;
   }
+
   // Use any image file you have for testing
-  return fs.createReadStream(filePath);
+  return fs.createReadStream(filePath, { highWaterMark: 100 * 1024 * 1024 });
 };
 
 const generateTestFile = async () => {
