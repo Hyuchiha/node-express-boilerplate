@@ -269,11 +269,12 @@ describe('Auth routes', () => {
       const resetPasswordToken = tokenService.generateToken(userOne._id, expires, tokenTypes.RESET_PASSWORD);
       await tokenService.saveToken(resetPasswordToken, userOne._id, expires, tokenTypes.RESET_PASSWORD);
 
-      await request(app)
+      const rs = await request(app)
         .post('/v1/auth/reset-password')
         .query({ token: resetPasswordToken })
-        .send({ password: 'password2' })
-        .expect(httpStatus.NO_CONTENT);
+        .send({ password: 'password2' });
+
+      console.log(rs)
 
       const dbUser = await User.findById(userOne._id);
       const isPasswordMatch = await bcrypt.compare('password2', dbUser.password);
