@@ -95,6 +95,10 @@ const getFile = catchAsync(async (req, res) => {
     throw new ApiError(httpStatus.NOT_FOUND, 'File not found');
   }
 
+  if (/^(image|video|audio)\/.*$/.test(file.fileType)) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'File not found');
+  }
+
   const headers = {
     'Content-Type': file?.fileType,
     'Content-Length': file.fileSize,

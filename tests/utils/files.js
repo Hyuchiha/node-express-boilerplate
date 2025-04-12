@@ -14,6 +14,9 @@ const readTestFile = async (type = 1) => {
     case 3:
       filePath = path.join(__dirname, '..', 'fixtures', 'testAudio.mp3');
       break;
+    case 4:
+      filePath = path.join(__dirname, '..', 'fixtures', 'testFile.csv');
+      break;
     case 1:
     default:
       filePath = path.join(__dirname, '..', 'fixtures', 'testImage.jpg');

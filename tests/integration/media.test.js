@@ -166,6 +166,33 @@ describe('Media routes', () => {
       expect(response.body).toBeDefined(); // Ensure data was sent back in the response
     });
 
+
+    test('should parse range with start and end correctly', async () => {
+      const start = 0;
+      const end = 99;
+
+      const res = await request(app)
+        .get(`/v1/media/resource/${uploadedVideo.fileName}`)
+        .set('Range', `bytes=${start}-${end}`)
+        .expect(httpStatus.PARTIAL_CONTENT);
+
+      expect(res.status).toBe(206);
+      expect(res.headers['content-range']).toBe(`bytes ${start}-${end}/${uploadedVideo.fileSize}`);
+    });
+
+    test('should parse range with only start and default end to fileSize - 1', async () => {
+      const start = 100;
+
+      const res = await request(app)
+        .get(`/v1/media/resource/${uploadedVideo.fileName}`)
+        .set('Range', `bytes=${start}-`)
+        .expect(httpStatus.PARTIAL_CONTENT);
+
+      const expectedEnd = uploadedVideo.fileSize - 1;
+      expect(res.status).toBe(206);
+      expect(res.headers['content-range']).toBe(`bytes ${start}-${expectedEnd}/${uploadedVideo.fileSize}`);
+    });
+
     test('should return 404 if audio or video file does not exist', async () => {
       await request(app).get('/v1/media/resource/nonexistentVideo.mp4').expect(httpStatus.NOT_FOUND);
     });
@@ -192,4 +219,58 @@ describe('Media routes', () => {
       await deleteTestFile(path.join(__dirname, '../..', config.files.uploadDestination, fileRes.fileName));
     });
   });
+
+  describe('GET /v1/media/file/:filename', () => {
+    let uploadedFile;
+    beforeEach(async () => {
+      const file = await readTestFile(4);
+      await insertUsers([userOne]);
+
+      const uploadRes = await request(app)
+        .post('/v1/media/upload-file')
+        .set('Authorization', `Bearer ${userOneAccessToken}`)
+        .attach('file', file)
+        .expect(httpStatus.CREATED);
+
+      uploadedFile = uploadRes.body;
+    });
+
+    afterEach(async () => {
+      try {
+        await deleteTestFile(path.join(__dirname, '../..', config.files.uploadDestination, uploadedFile.fileName));
+      } catch (err) {
+        // Err
+      }
+    });
+
+    test('should return 200 and file content if file file exists', async () => {
+      await request(app).get(`/v1/media/file/${uploadedFile.fileName}`).expect(httpStatus.OK);
+    });
+
+    test('should return 404 if file does not exist', async () => {
+      await request(app).get('/v1/media/file/nonexistentFile.csv').expect(httpStatus.NOT_FOUND);
+    });
+
+    test('should return 404 if file exist in db but no in filesystem', async () => {
+      await deleteTestFile(path.join(__dirname, '../..', config.files.uploadDestination, uploadedFile.fileName));
+
+      await request(app).get(`/v1/media/file/${uploadedFile.fileName}`).expect(httpStatus.NOT_FOUND);
+    });
+
+    test('should return 404 if file is image, video or audio type', async () => {
+      const file = await readTestFile();
+
+      const uploadRes = await request(app)
+        .post('/v1/media/upload-file')
+        .set('Authorization', `Bearer ${userOneAccessToken}`)
+        .attach('file', file)
+        .expect(httpStatus.CREATED);
+
+      const fileRes = uploadRes.body;
+
+      await request(app).get(`/v1/media/file/${fileRes.fileName}`).expect(httpStatus.NOT_FOUND);
+
+      await deleteTestFile(path.join(__dirname, '../..', config.files.uploadDestination, fileRes.fileName));
+    });
+  })
 });
