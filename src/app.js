@@ -1,7 +1,7 @@
 import express from 'express';
 import helmet from 'helmet';
 import { xss } from 'express-xss-sanitizer';
-import mongoSanitize from 'express-mongo-sanitize';
+import mongoSanitize from '@exortek/express-mongo-sanitize';
 import compression from 'compression';
 import cors from 'cors';
 import passport from 'passport';
@@ -32,7 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // sanitize request data
 app.use(xss());
-//app.use(mongoSanitize());  // Enable when updated mongoSanitize
+app.use(mongoSanitize());  // Enable when updated mongoSanitize
 
 // gzip compression
 app.use(compression());
