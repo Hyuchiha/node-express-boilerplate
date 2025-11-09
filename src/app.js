@@ -32,7 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // sanitize request data
 app.use(xss());
-app.use(mongoSanitize());  // Enable when updated mongoSanitize
+//app.use(mongoSanitize());  // Enable when updated mongoSanitize
 
 // gzip compression
 app.use(compression());
